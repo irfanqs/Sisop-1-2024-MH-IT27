@@ -3,7 +3,7 @@
 cd genshin_character
 
 log() {
-    echo "[$(date +'%d/%m/%Y %H:%M:%S')] [$1], [$2]" >> ../../image.log
+    echo "[$(date +'%d/%m/%Y %H:%M:%S')] [$1] [$2]" >> ../../image.log
 }
 
 status=false
