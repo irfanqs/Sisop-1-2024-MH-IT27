@@ -20,11 +20,12 @@ sort -t ',' -k 2,2nr |
 head -n 3
 
 # Soal 1 D, Mencari purchase date dan amount (quantity) dari nama adriaens
+output=$(awk -F ',' '$6 == "Adriaens Grayland" {print $2,$18}' Sandbox.csv)
 mencarinama=$(awk -F ',' '$6 == "Adriaens Grayland"' Sandbox.csv)
 if [ -z "$mencarinama" ]; then
-    echo "andriaens tidak terdaftar!!!."
+    echo "adriaens tidak terdaftar!!!"
 else
-    echo "$mencarinama"
+    echo "$output"
 fi
 
 
