@@ -167,6 +167,7 @@ Sebelum dirun, pastikan perizinan untuk menjalankan file diubah dengan command `
 ![image](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/130438307/98c7418f-acaa-454a-b0f4-5e63d64ee24a)
 ![image](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/130438307/bad070aa-bcff-43fa-b18d-d855bab276d1)
 **Isi file image.log**
+
 ![image](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/130438307/6f46269f-e95b-4cb0-8ed9-a38456e95460)
 ### Kendala
 Ada problem di mana saat search.sh dijalankan, terdapat error bertuliskan `base64: invalid input`. Namun, error tersebut tidak mengganggu jalannya program sehingga program tetap bisa mendapatkan flagnya
