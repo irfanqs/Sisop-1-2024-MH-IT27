@@ -14,7 +14,7 @@ List Soal:
  - [Soal 4](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/tree/main#soal-4)
 
 ## Soal 1
-<details><summary>Click to expand</summary>
+<details><summary>Klik untuk melihat soal</summary>
 Cipung dan abe ingin mendirikan sebuah toko bernama “SandBox”, sedangkan kamu adalah manajer penjualan yang ditunjuk oleh Cipung dan Abe untuk melakukan pelaporan penjualan dan strategi penjualan kedepannya yang akan dilakukan.
 
 Setiap tahun Cipung dan Abe akan mengadakan rapat dengan kamu untuk mengetahui laporan dan strategi penjualan dari “SandBox”. Buatlah beberapa kesimpulan dari data penjualan “[Sandbox.csv](https://drive.google.com/file/d/1cC6MYBI3wRwDgqlFQE1OQUN83JAreId0/view?usp=sharing)” untuk diberikan ke cipung dan abe.
@@ -32,7 +32,7 @@ Setiap tahun Cipung dan Abe akan mengadakan rapat dengan kamu untuk mengetahui l
 ### Kendala
 ### Revisi
 ## Soal 2
-<details><summary>Click to expand</summary>
+<details><summary>Klik untuk melihat soal</summary>
 Oppie merupakan seorang peneliti bom atom, ia ingin merekrut banyak peneliti lain untuk mengerjakan proyek bom atom nya, Oppie memiliki racikan bom atom rahasia yang hanya bisa diakses penelitinya yang akan diidentifikasi sebagai user, Oppie juga memiliki admin yang bertugas untuk memanajemen peneliti, bantulah oppie untuk membuat program yang akan memudahkan tugasnya
     
 1.  Buatlah 2 program yaitu login.sh dan register.sh
@@ -77,7 +77,7 @@ Oppie merupakan seorang peneliti bom atom, ia ingin merekrut banyak peneliti lai
 ### Kendala
 ### Revisi
 ## Soal 3
-<details><summary>Click to expand</summary>
+<details><summary>Klik untuk melihat soal</summary>
 Alyss adalah seorang gamer yang sangat menyukai bermain game Genshin Impact. Karena hobinya, dia ingin mengoleksi foto-foto karakter Genshin Impact. Suatu saat Yanuar memberikannya sebuah [Link](https://drive.google.com/file/d/1oGHdTf4_76_RacfmQIV4i7os4sGwa9vN/view?usp=sharing) yang berisi koleksi kumpulan foto karakter dan sebuah clue yang mengarah ke penemuan gambar rahasia. Ternyata setiap nama file telah dienkripsi dengan menggunakan hexadecimal. Karena penasaran dengan apa yang dikatakan Yanuar, Alyss tidak menyerah dan mencoba untuk mengembalikan nama file tersebut kembali seperti semula.
 
  -  Alyss membuat script bernama awal.sh, untuk download file yang diberikan oleh Yanuar dan unzip terhadap file yang telah diunduh dan decode setiap nama file yang terenkripsi dengan hex . Karena pada file list_character.csv terdapat data lengkap karakter, Alyss ingin merename setiap file berdasarkan file tersebut. Agar semakin rapi, Alyss mengumpulkan setiap file ke dalam folder berdasarkan region tiap karakter. **Format: Region - Nama - Elemen - Senjata.jpg**
@@ -159,10 +159,15 @@ Pertama, kita awali dengan **pembuatan awal.sh**
  4. Langkah keempat kita diminta untuk mengeluarkan output semua nama senjata beserta jumlahnya ke dalam terminal, kita akan memanfaatkan `awk` untuk mengambil nama senjata beserta jumlahnya di kolom keempat dari **list_character.csv**. Setelah itu kita melakukan looping untuk mengeluarkan output nama senjata beserta jumlahnya sesuai dengan format yang diinginkan.
  5. Terakhir, kita kembali ke folder awal lalu menghapus semua file dan folder yang diminta, yaitu **genshin.zip**, **genshin_character.zip**, dan **list_character.csv**.
 
+**Hasil Output**
+Sebelum dirun, pastikan perizinan untuk menjalankan file diubah dengan command `chmod +x awal.sh search.sh`
+![image](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/130438307/88e79a14-7aa5-47a7-9748-8022218cd434)
+![image](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/130438307/a8c4a547-0849-49aa-8cb3-223a8430fb3b)
+
 ### Kendala
 ### Revisi
 ## Soal 4
-<details><summary>Click to expand</summary>
+<details><summary>Klik untuk melihat soal</summary>
 Stitch sangat senang dengan PC di rumahnya. Suatu hari, PC nya secara tiba-tiba nge-freeze 🤯 Tentu saja, Stitch adalah seorang streamer yang harus setiap hari harus bermain game dan streaming. Akhirnya, dia membawa PC nya ke tukang servis untuk diperbaiki. Setelah selesai diperbaiki, ternyata biaya perbaikan sangat mahal sehingga dia harus menggunakan uang hasil tabungan nya untuk membayarnya. Menurut tukang servis, masalahnya adalah pada CPU dan GPU yang overload karena gaming dan streaming sehingga mengakibatkan freeze pada PC nya. Agar masalah ini tidak terulang kembali, Stitch meminta kamu untuk membuat sebuah program monitoring resource yang tersedia pada komputer.
 
 Buatlah program monitoring resource pada PC kalian. Cukup monitoring ram dan monitoring size suatu directory. Untuk ram gunakan command `free -m`. Untuk disk gunakan command `du -sh <target_path>`. Catat semua metrics yang didapatkan dari hasil `free -m`. Untuk hasil `du -sh <target_path>` catat size dari path directory tersebut. Untuk target_path yang akan dimonitor adalah /home/{user}/.
