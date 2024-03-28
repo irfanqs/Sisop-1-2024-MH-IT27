@@ -8,10 +8,10 @@ Anggota Kelompok :
 
 List Soal:
 
- - Soal 1
- - Soal 2
- - Soal 3
- - Soal 4
+ - [Soal 1] (https://github.com/irfanqs/Sisop-1-2024-MH-IT27/tree/main#soal-1)
+ - [Soal 2] (https://github.com/irfanqs/Sisop-1-2024-MH-IT27/tree/main#soal-2)
+ - [Soal 3] (https://github.com/irfanqs/Sisop-1-2024-MH-IT27/tree/main#soal-3)
+ - [Soal 4] (https://github.com/irfanqs/Sisop-1-2024-MH-IT27/tree/main#soal-4)
 
 ## Soal 1
 <details><summary>Click to expand</summary>
