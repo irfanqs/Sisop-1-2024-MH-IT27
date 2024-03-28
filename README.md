@@ -160,11 +160,16 @@ Pertama, kita awali dengan **pembuatan awal.sh**
  5. Terakhir, kita kembali ke folder awal lalu menghapus semua file dan folder yang diminta, yaitu **genshin.zip**, **genshin_character.zip**, dan **list_character.csv**.
 
 **Hasil Output**
+
 Sebelum dirun, pastikan perizinan untuk menjalankan file diubah dengan command `chmod +x awal.sh search.sh`
 ![image](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/130438307/88e79a14-7aa5-47a7-9748-8022218cd434)
 ![image](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/130438307/a8c4a547-0849-49aa-8cb3-223a8430fb3b)
-
+![image](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/130438307/98c7418f-acaa-454a-b0f4-5e63d64ee24a)
+![image](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/130438307/bad070aa-bcff-43fa-b18d-d855bab276d1)
+**Isi file image.log**
+![image](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/130438307/6f46269f-e95b-4cb0-8ed9-a38456e95460)
 ### Kendala
+Ada problem di mana saat search.sh dijalankan, terdapat error bertuliskan `base64: invalid input`. Namun, error tersebut tidak mengganggu jalannya program sehingga program tetap bisa mendapatkan flagnya
 ### Revisi
 ## Soal 4
 <details><summary>Klik untuk melihat soal</summary>
@@ -194,5 +199,31 @@ type,mem_total,mem_used,mem_free,mem_shared,mem_buff,mem_available,swap_total,sw
 </details>
 
 ### Penjelasan
+Pertama, kita buat script bernama **minute_log.sh**, nantinya script ini akan dijalankan setiap satu menit menggunakan `crontab`.
+
+    #!/bin/bash
+    
+    #CRONJOB
+    #* * * * * minute_log.sh
+    
+    # Mengatur waktu untuk nama file log
+    log_time=$(date +"%Y%m%d%H%M%S")
+    log_file="/home/irfanqs/log/metrics_$log_time.log"
+    
+    # Mengambil metrics RAM dan metrics swap
+    ram_metrics=$(free -m | awk 'NR==2 {print $2","$3","$4","$5","$6","$7}')
+    swap_metrics=$(free -m | awk 'NR==3{print $2","$3","$4}')
+    
+    # Mengambil metrics size direktori target
+    target_path="/home/irfanqs/"
+    dir_size=$(du -sh "$target_path" | awk '{print $1}')
+    
+    # Menulis metrics ke dalam file log
+    echo "mem_total,mem_used,mem_free,mem_shared,mem_buff,mem_available,swap_total,swap_used,swap_free,path,path_size" > "$log_file"
+    echo "$ram_metrics,$swap_metrics,$target_path,$dir_size" >> "$log_file"
+    
+    # Mengubah izin folder log
+    chmod 600 $log_file
+
 ### Kendala
 ### Revisi
