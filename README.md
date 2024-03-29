@@ -500,7 +500,7 @@ esac
 ### Kendala
 Tidak ada kendala pada jawaban nomor ini
 ### Revisi
-Tidak ada kendala pada jawaban nomor ini
+Tidak ada revisi pada jawaban nomor ini
 ## Soal 3
 <details><summary>Klik untuk melihat soal</summary>
 Alyss adalah seorang gamer yang sangat menyukai bermain game Genshin Impact. Karena hobinya, dia ingin mengoleksi foto-foto karakter Genshin Impact. Suatu saat Yanuar memberikannya sebuah [Link](https://drive.google.com/file/d/1oGHdTf4_76_RacfmQIV4i7os4sGwa9vN/view?usp=sharing) yang berisi koleksi kumpulan foto karakter dan sebuah clue yang mengarah ke penemuan gambar rahasia. Ternyata setiap nama file telah dienkripsi dengan menggunakan hexadecimal. Karena penasaran dengan apa yang dikatakan Yanuar, Alyss tidak menyerah dan mencoba untuk mengembalikan nama file tersebut kembali seperti semula.
