@@ -298,6 +298,97 @@ Pertama, kita buat script bernama **minute_log.sh**, nantinya script ini akan di
     # Mengubah izin folder log
     chmod 600 $log_file
 
+1. Langkah pertama yang perlu dilakukan yaitu kita membuat variable `log_time` untuk menyimpan data dari waktu sesuai dengan format. Selain itu, kita perlu membuat variable `log_file` untuk menyimpan path tempat file **metrics_$log_time.log** disimpan.
+2. Selanjutnya kita akan mengambil metrics RAM dan metrics swap menggunakan `free -m` dan dengan bantuan `awk` kita dapat mengambil data yang dibutuhkan. Setelah itu, hasilnya akan disimpan di variable `ram_metrics` dan `swap_metrics`.
+3. Setelah itu kita juga mengambil size directory dari path yang telah tercantum di `target_path`. Dengan menggunakan `du -sh`, kita dapat menampilkan size directory tersebut dan menyimpannya di variable `dir_size`.
+4. Setelah semua data yang dibutuhkan dicatat di tiap variable, kita akan menyimpannya ke dalam file log yang telah diatur oleh variable `log_file`. Kita akan menjalankan `echo "$ram_metrics,$swap_metrics,$target_path,$dir_size"` dan memasukkannya ke `log_file` dengan menggunakan perintah `>>`. 
+5. Langkah yang terakhir adalah kita perlu mengubah perizinan agar file tiap log yang dibuat dapat dibuka oleh user yang membuatnya saja, untuk itu kita perlu command `chmod 600 $log_file`
+
+Kedua, kita buat file bernama **aggregate_minutes_to_hourly_log.sh**. Nantinya program ini akan berjalan setiap satu jam menggunakan `crontab`.
+
+    #!/bin/bash
+    
+    # CRONJOB
+    # 0 * * * * aggregate_minutes_to_hourly_log.sh
+    log_time=$(date +"%Y%m%d%H")
+    
+    #deklarasi nilai awal
+    path=~/
+    mkdir ../log/combined_log
+    
+    touch ../log/combined_log/combined_metrics.log
+    
+    for file in ../log/*.log;
+    do
+        awk 'NR==2' "$file" >> "../log/combined_log/combined_metrics.log"
+        # cat "$file" >> "../log/combined_log/combined_metrics.log"
+    done
+    echo "type,mem_total,mem_used,mem_free,mem_shared,mem_buff,mem_available,swap_total,swap_used,swap_free,path,path_size" > "../log/metrics_agg_${log_time}.log"
+    # Calculate max
+    max_mem_tot=$(awk -F',' '{ if ($1 > max_mem_tot || NR == 1) max_mem_tot = $1 } END { print max_mem_tot }' "../log/combined_log/combined_metrics.log")
+    max_memus=$(awk -F',' '{ if ($2 > max_memus || NR == 1) max_memus = $2 } END { print max_memus }' "../log/combined_log/combined_metrics.log")
+    max_memfr=$(awk -F',' '{ if ($3 > max_memfr || NR == 1) max_memfr = $3 } END { print max_memfr }' "../log/combined_log/combined_metrics.log")
+    max_memsh=$(awk -F',' '{ if ($4 > max_memsh || NR == 1) max_memsh = $4 } END { print max_memsh }' "../log/combined_log/combined_metrics.log")
+    max_membf=$(awk -F',' '{ if ($5 > max_membf || NR == 1) max_membf = $5 } END { print max_membf }' "../log/combined_log/combined_metrics.log")
+    max_memav=$(awk -F',' '{ if ($6 > max_memav || NR == 1) max_memav = $6 } END { print max_memav }' "../log/combined_log/combined_metrics.log")
+    max_swaptot=$(awk -F',' '{ if ($7 > max_swaptot || NR == 1) max_swaptot = $7 } END { print max_swaptot }' "../log/combined_log/combined_metrics.log")
+    max_swapus=$(awk -F',' '{ if ($8 > max_swapus || NR == 1) max_swapus = $8 } END { print max_swapus }' "../log/combined_log/combined_metrics.log")
+    max_swapfr=$(awk -F',' '{ if ($9 > max_swapfr || NR == 1) max_swapfr = $9 } END { print max_swapfr }' "../log/combined_log/combined_metrics.log")
+    
+    #get all pathsz and separate alphabet-numeric
+    pathsz=$(awk -F',' '{print $NF}' "../log/combined_log/combined_metrics.log")
+    max_pathsz=$(echo "$pathsz" | sed 's/\([0-9]\+\)\([A-Za-z]\+\)/\1 \2/' | sort -nr | head -n 1 | awk '{print $1}')
+    
+    # Calculate min
+    min_mem_tot=$(awk -F',' '{ if ($1 < min_mem_tot || NR == 1) min_mem_tot = $1 } END { print min_mem_tot }' "../log/combined_log/combined_metrics.log")
+    min_memus=$(awk -F',' '{ if ($2 < min_memus || NR == 1) min_memus = $2 } END { print min_memus }' "../log/combined_log/combined_metrics.log")
+    min_memfr=$(awk -F',' '{ if ($3 < min_memfr || NR == 1) min_memfr = $3 } END { print min_memfr }' "../log/combined_log/combined_metrics.log")
+    min_memsh=$(awk -F',' '{ if ($4 < min_memsh || NR == 1) min_memsh = $4 } END { print min_memsh }' "../log/combined_log/combined_metrics.log")
+    min_membf=$(awk -F',' '{ if ($5 < min_membf || NR == 1) min_membf = $5 } END { print min_membf }' "../log/combined_log/combined_metrics.log")
+    min_memav=$(awk -F',' '{ if ($6 < min_memav || NR == 1) min_memav = $6 } END { print min_memav }' "../log/combined_log/combined_metrics.log")
+    min_swaptot=$(awk -F',' '{ if ($7 < min_swaptot || NR == 1) min_swaptot = $7 } END { print min_swaptot }' "../log/combined_log/combined_metrics.log")
+    min_swapus=$(awk -F',' '{ if ($8 < min_swapus || NR == 1) min_swapus = $8 } END { print min_swapus }' "../log/combined_log/combined_metrics.log")
+    min_swapfr=$(awk -F',' '{ if ($9 < min_swapfr || NR == 1) min_swapfr = $9 } END { print min_swapfr }' "../log/combined_log/combined_metrics.log")
+    min_pathsz=$(echo "$pathsz" | sed 's/\([0-9]\+\)\([A-Za-z]\+\)/\1 \2/' | sort -n | head -n 1 | awk '{print $1}')
+    
+    #AVG
+    avg_mem_tot=$(((max_mem_tot + min_mem_tot) / 2))
+    avg_memus=$(((max_memus + min_memus) / 2))
+    avg_memfr=$(((max_memfr + min_memfr) / 2))
+    avg_memsh=$(((max_memsh + min_memsh) / 2))
+    avg_membf=$(((max_membf + min_membf) / 2))
+    avg_memav=$(((max_memav + min_memav) / 2))
+    avg_swaptot=$(((max_swaptot + min_swaptot) / 2))
+    avg_swapus=$(((max_swapus + min_swapus) / 2))
+    avg_swapfr=$(((max_swapfr + min_swapfr) / 2))
+    avg_pathsz=$(((max_pathsz + min_pathsz) / 2))
+    
+    #hasil
+    echo "type,mem_total,mem_used,mem_free,mem_shared,mem_buff,mem_available,swap_total,swap_used,swap_free,path,path_size" > "../log/metrics_agg_${log_time}.log"
+    echo "minimum,$min_mem_tot,$min_memus,$min_memfr,$min_memsh,$min_membf,$min_memav,$min_swaptot,$min_swapus,$min_swapfr,$path,$min_pathsz""M" >> "../log/metrics_agg_${log_time}.log"
+    echo "maximum,$max_mem_tot,$max_memus,$max_memfr,$max_memsh,$max_membf,$max_memav,$max_swaptot,$max_swapus,$max_swapfr,$path,$max_pathsz""M" >> "../log/metrics_agg_${log_time}.log"
+    echo "average,$avg_mem_tot,$avg_memus,$avg_memfr,$avg_memsh,$avg_membf,$avg_memav,$avg_swaptot,$avg_swapus,$avg_swapfr,$path,$avg_pathsz""M" >> "../log/metrics_agg_${log_time}.log"
+    
+    rm -r "../log/combined_log/"
+    
+    chmod 600 "../log/metrics_agg_${log_time}.log"
+
+1. Langkah pertama yang perlu dilakukan adalah membuat variable `log_time` untuk menyimpan data waktu sesuai format yang dibutuhkan. Kemudia kita akan membuat folder bernama **combined_log** di folder log. Serta dengan membuat file baru bernama **combined_metrics.log** di dalam direktori tersebut.
+2. Setelah itu kita akan melakukan looping untuk tiap file .log yang ada di folder, dengan memanfaatkan `awk` untuk mengambil nilai pada baris kedua setiap file log. Nantinya, kita akan memanfaatkan file **combined_metrics.log** untuk menghitung nilai maksimal, minimal, dan rata-rata tiap kolomnya, karena data tiap file log sudah tercatat ke dalam file tersebut.
+3. Kemudian kita akan menghitung nilai max, min, dan avg tiap kolomnya. Dengan menggunakan `awk`, kita dapat membuat sebuah rumus agar kita dapat mencari nilai max dan min. Untuk rumusnya kurang lebih sama konsepnya, sebagai contoh kita akan menggunakan variable `max_mem_tot`. Jika nilai `max_mem_tot` lebih kecil dari kolom 1 atau posisinya berada di baris 1, maka `max_mem_tot` bernilai kolom 1. Perhitungan ini akan terus berjalan hingga baris terakhir. Setelah itu, masuk ke bagian END, nilai `max_mem_tot` akan dicetak. Untuk menjadikan rumus ini sebagai perhitungan nilai min, kita hanya perlu mengubah if statementnya menjadi lebih besar dari nilai kolom tersebut.
+4. Selain menghitung nilai max dan min, kita juga perlu mengetahui path dan ukurannya. Dengan variable `pathsz`, kita memanfaatkan `awk` untuk print jumlah dari kolom tersebut. Dan dengan variable `max_pathsz`, kita dapat mencari nilai max dari ukuran path tersebut,
+5. Setelah itu, kita perlu menghitung juga nilai average dari semua perhitungan di atas. Caranya cukup simpel, kita hanya perlu menambahkan nilai max dan min lalu dibagi 2. Semuanya akan disimpan di variablenya masing-masing.
+6. Setelah semuanya selesai, kita dapat menampilkan semua nilainya dengan command `echo` agar nilainya dapat muncul di file yang bernama **metrics_agg_${log_time}.log** yang terletak di  folder `../log`. Tidak lupa kita menghapus folder log/combined_log karena sudah tidak dibutuhkan lagi.
+7. Tidak lupa kita mengubah perizinan file log yang nanti dioutputkan oleh program ini agar dapat diakses oleh user yang membuat saja.
+
+**Hasil Output**
+Output file **minute_log.sh**
+![image](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/130438307/8c3431bc-14c1-4c05-9c3e-c4aeff307f25)
+
+Output file **aggregate_minutes_to_hourly_log.sh**
+![image](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/130438307/f521f73e-2e3d-417c-80de-85ddfb198145)
+
+
 ### Kendala
 Command cronjob tidak berjalan, padahal crontab telah disetting sesuai command tiap file tersebut
 ### Revisi
