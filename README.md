@@ -381,7 +381,7 @@ Kedua, kita buat file bernama **aggregate_minutes_to_hourly_log.sh**. Nantinya p
 6. Setelah semuanya selesai, kita dapat menampilkan semua nilainya dengan command `echo` agar nilainya dapat muncul di file yang bernama **metrics_agg_${log_time}.log** yang terletak di  folder `../log`. Tidak lupa kita menghapus folder log/combined_log karena sudah tidak dibutuhkan lagi.
 7. Tidak lupa kita mengubah perizinan file log yang nanti dioutputkan oleh program ini agar dapat diakses oleh user yang membuat saja.
 
-**Hasil Output**
+**Hasil Output** <br>
 Output file **minute_log.sh**
 ![image](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/130438307/8c3431bc-14c1-4c05-9c3e-c4aeff307f25)
 
