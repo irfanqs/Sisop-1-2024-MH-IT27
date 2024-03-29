@@ -159,6 +159,76 @@ Pertama, kita awali dengan **pembuatan awal.sh**
  4. Langkah keempat kita diminta untuk mengeluarkan output semua nama senjata beserta jumlahnya ke dalam terminal, kita akan memanfaatkan `awk` untuk mengambil nama senjata beserta jumlahnya di kolom keempat dari **list_character.csv**. Setelah itu kita melakukan looping untuk mengeluarkan output nama senjata beserta jumlahnya sesuai dengan format yang diinginkan.
  5. Terakhir, kita kembali ke folder awal lalu menghapus semua file dan folder yang diminta, yaitu **genshin.zip**, **genshin_character.zip**, dan **list_character.csv**.
 
+Selanjutnya, kita akan **membuat search.sh**
+
+    #!/bin/bash
+
+    cd genshin_character
+    
+    log() {
+        echo "[$(date +'%d/%m/%Y %H:%M:%S')] [$1] [$2]" >> ../../image.log
+    }
+    
+    status=false
+    valid_url='https?://\S+'
+    genshinFolders=("Fontaine" "Inazuma" "Liyue" "Mondstat" "Sumeru")
+    
+    while true; do
+        for folder in "${genshinFolders[@]}"; do
+            cd "$folder" || continue
+            for foto in *.jpg; do
+                steghide extract -sf "$foto" -p "" > /dev/null 2>&1
+                name=$(awk -F '-' '{gsub(/^[ \t]+|[ \t]+$/, "", $2); print $2}' <<< "$foto")
+    
+                if [ "$status" = true ]; then
+                    break
+                fi
+    
+                extract="${name}.txt"
+    
+                if [ -f "$extract" ]; then
+                    # url=$(base64 ${extract})
+                    # url=${base64 --decode "$extract"}
+                    # url=$(echo "$extract" | base64 --decode --ignore-garbage)
+                    url=$(base64 -d <<< echo "$extract")
+    
+       
+                    if [ "$status" = true ]; then
+                    break
+                    fi
+    
+                    if [[ $url =~ $valid_url ]]; then
+                        echo "[FOUND] $foto"
+                        echo "URL: $url"
+                        echo "$url" >> ../../dekripsi.txt
+                        log "FOUND" "$foto"
+                        wget "$url" -P ../../
+                        rm -f "$extract"
+                        status=true
+                        break
+                    else
+                        echo "[NOT FOUND] $foto"
+                        rm -f "$extract"
+                        log "NOT FOUND" "$foto"
+                    fi
+                fi
+                sleep 1
+            done
+            cd ..
+            sleep 1
+    
+            if [ "$status" = true ]; then
+                    break
+            fi
+        done
+        if [ "$status" = true ]; then
+            break
+        fi
+        done
+1. Langkah pertama yaitu kita diminta untuk mengekstrak sebuah value yang ada di tiap folder dan didecode dengan base64. Pengecekan dilakukan setiap 1 detik. Untuk itu kita menggunakan `steghide` untuk mengekstrak value dari foto. Karena nama file txt value tersebut sama dengan nama tiap file foto karakter, kita perlu membuat variable `nama` untuk mengambil data dari nama file jpg agar kita bisa mengambil value dari foto tersebut. Setelah itu, kita perlu decode isi file txt tersebut menggunakan base64.
+2. Jika url yang didapatkan benar, maka status akan diubah menjadi true dan semua looping akan berhenti. Jika url yang didapatkan salah, maka file txt tersebut akan langsung dihapus dan looping masih terus berjalan hingga url yang didapatkan benar. Semua proses dicatat dalam file **image.log** dan juga url yang benar disimpan di **dekripsi.txt**.
+3. Langkah selanjutnya adalah memberi command `sleep 1` agar looping dapat berhenti setiap 1 detik. Tidak hanya looping pada tiap file, looping pada tiap folder juga akan dijeda selama 1 detik.
+   <br>
 **Hasil Output**
 
 Sebelum dirun, pastikan perizinan untuk menjalankan file diubah dengan command `chmod +x awal.sh search.sh`
