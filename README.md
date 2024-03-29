@@ -243,6 +243,7 @@ Sebelum dirun, pastikan perizinan untuk menjalankan file diubah dengan command `
 ### Kendala
 Ada problem di mana saat search.sh dijalankan, terdapat error bertuliskan `base64: invalid input`. Namun, error tersebut tidak mengganggu jalannya program sehingga program tetap bisa mendapatkan flagnya
 ### Revisi
+Tidak ada revisi untuk jawaban nomor ini
 ## Soal 4
 <details><summary>Klik untuk melihat soal</summary>
 Stitch sangat senang dengan PC di rumahnya. Suatu hari, PC nya secara tiba-tiba nge-freeze 🤯 Tentu saja, Stitch adalah seorang streamer yang harus setiap hari harus bermain game dan streaming. Akhirnya, dia membawa PC nya ke tukang servis untuk diperbaiki. Setelah selesai diperbaiki, ternyata biaya perbaikan sangat mahal sehingga dia harus menggunakan uang hasil tabungan nya untuk membayarnya. Menurut tukang servis, masalahnya adalah pada CPU dan GPU yang overload karena gaming dan streaming sehingga mengakibatkan freeze pada PC nya. Agar masalah ini tidak terulang kembali, Stitch meminta kamu untuk membuat sebuah program monitoring resource yang tersedia pada komputer.
@@ -298,4 +299,6 @@ Pertama, kita buat script bernama **minute_log.sh**, nantinya script ini akan di
     chmod 600 $log_file
 
 ### Kendala
+Command cronjob tidak berjalan, padahal crontab telah disetting sesuai command tiap file tersebut
 ### Revisi
+Ada revisi pada command cronjob kedua file tersebut, seharusnya command cronjob ditulis full dengan pathnya sehingga menjadi seperti berikut `* * * * * /home/irfanqs/soal_4/minute_log.sh` untuk file **minute_log.sh** dan `0 * * * * /home/irfanqs/soal_4/aggregate_minutes_to_hourly_log.sh` untuk file **aggregate_minutes_to_hourly_log.sh**. Selain itu, ada sebuah persyaratan yang perlu ditambahi pada looping file .log pada file **aggregate_minutes_to_hourly_log.sh**. Pada looping tersebut seharusnya diberi syarat jika file .log tersebut bernama **minutes_agg_(waktu dibuat).log**, maka file tersebut akan diskip dan lanjut ke file selanjutnya. Hal ini perlu dilakukan agar output dari file **aggregate_minutes_to_hourly_log.sh** tidak salah karena file **minutes_agg_(waktu dibuat).log** tidak akan terinput ke dalam output file tersebut
