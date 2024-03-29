@@ -229,6 +229,7 @@ Selanjutnya, kita akan **membuat search.sh**
 2. Jika url yang didapatkan benar, maka status akan diubah menjadi true dan semua looping akan berhenti. Jika url yang didapatkan salah, maka file txt tersebut akan langsung dihapus dan looping masih terus berjalan hingga url yang didapatkan benar. Semua proses dicatat dalam file **image.log** dan juga url yang benar disimpan di **dekripsi.txt**.
 3. Langkah selanjutnya adalah memberi command `sleep 1` agar looping dapat berhenti setiap 1 detik. Tidak hanya looping pada tiap file, looping pada tiap folder juga akan dijeda selama 1 detik.
    <br>
+   
 **Hasil Output**
 
 Sebelum dirun, pastikan perizinan untuk menjalankan file diubah dengan command `chmod +x awal.sh search.sh`
