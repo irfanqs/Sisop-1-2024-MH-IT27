@@ -497,6 +497,18 @@ esac
 1. pengguna dapat memilih `"login"` atau `"forgot password"` dimana pada `# Function untuk perform login` memiliki fungsi `perform_login()` untuk mengecek email yang ada di user.txt. jika email tidak ada maka akan keluar keterangannya. dan jika ada maka akan lanjut ke berikutnya yaitu pengguna memasukkan password. jika password sesuai dengan yang tersimpan saat register  `if [[ "$entered_password" == "$stored_password" ]];` maka login akan sukses.
 2. pada bagian `# Check if user is admin` terdapat `if [[ $email =~ .*"admin".* ]];` dimana jika email mengandung kata admin setelah sukses login maka akan memanggil `$admin_option` dimana jika menjadi admin maka dapat menambah user dengan fungsi `add_user()`, edit user dengan fungsi `edit_user()`, editing password pada fungsi `edit_password()`, editing question and answer security pada `fungsi edit_security_info()` dan deleting user pada fungsi `delete_user()`.
 3. dan data yang dimasukkan pengguna tercatat pada file `user.txt` dan history login berhasil atau tidaknya semua tercatat pada file `auth.log`
+
+**Hasil Output**
+
+<img width="356" alt="Screenshot 2024-03-30 021532" src="https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/79549192/fbbd2f15-7688-47bc-a964-cc86a555fdb4">
+<img width="368" alt="Screenshot 2024-03-30 021625" src="https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/79549192/b6ff5cd0-8335-4909-86ff-15d6f1318785">
+
+
+**Dokumentasi user.txt dan auth.log**
+
+<img width="324" alt="image" src="https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/79549192/b61894d7-bb10-47c0-8247-21ad13dee5c7">
+<img width="326" alt="ss auth log" src="https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/79549192/6c816b9a-1653-4f33-8235-251caebd3fc0">
+
 ### Kendala
 Tidak ada kendala pada jawaban nomor ini
 ### Revisi
