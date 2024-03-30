@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # CRONJOB
-# 0 * * * * aggregate_minutes_to_hourly_log.sh
+# 0 * * * * /home/irfanqs/soal_4/aggregate_minutes_to_hourly_log.sh
 log_time=$(date +"%Y%m%d%H")
 
 #deklarasi nilai awal
@@ -12,8 +12,10 @@ touch ../log/combined_log/combined_metrics.log
 
 for file in ../log/*.log;
 do
+    if [[ ! "$file" =~ metrics_agg_[0-9]{10}\.log ]]; then
     awk 'NR==2' "$file" >> "../log/combined_log/combined_metrics.log"
     # cat "$file" >> "../log/combined_log/combined_metrics.log"
+    fi
 done
 echo "type,mem_total,mem_used,mem_free,mem_shared,mem_buff,mem_available,swap_total,swap_used,swap_free,path,path_size" > "../log/metrics_agg_${log_time}.log"
 # Calculate max
