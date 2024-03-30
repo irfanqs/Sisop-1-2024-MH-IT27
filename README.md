@@ -46,7 +46,11 @@ head -n 1 |
 awk -F ',' '{print "Nama Pembeli dengan Total Total Sales Tertinggi: " $1}'
 
 # Profit Terkecil
-awk -F ',' 'NR > 1 {segment[$6]+=$20} END {profitterkecil=999999999999; segmentterkecil=""; for (cust in segment) {if (segment[cust>
+awk -F ',' 'NR > 1 {segment[$6]+=$20} END {profitterkecil=999999999999; segmentterkecil=""; for (cust in segment) {if (segment[cust] < profitterkecil) {profitterkecil=segment[cust]; segmentterkecil=cust}} print "Customer dengan Profit Terkecil: " segmentterkecil}' Sandbox.csv
+
+
+
+
 
 # Soal 1 C, Menampilkan 3 Kategori profit tertinggi
 awk -F ',' 'NR > 1 {kategori[$14]+=$21} END {for (jenis in kategori) print jenis "," kategori[jenis]}' Sandbox.csv |
@@ -77,7 +81,7 @@ awk -F ',' '{print "Nama Pembeli dengan Total Total Sales Tertinggi: " $1}'
 ```
 3. membuat function untuk mencari customer segment yang memiliki profit paling kecil
 ```bash
-awk -F ',' 'NR > 1 {segment[$6]+=$20} END {profitterkecil=999999999999; segmentterkecil=""; for (cust in segment) {if (segment[cust>
+awk -F ',' 'NR > 1 {segment[$6]+=$20} END {profitterkecil=999999999999; segmentterkecil=""; for (cust in segment) {if (segment[cust] < profitterkecil) {profitterkecil=segment[cust]; segmentterkecil=cust}} print "Customer dengan Profit Terkecil: " segmentterkecil}' Sandbox.csv
 ```
 4. function untuk menampilkan 3 category yang memiliki total profit paling tinggi
 ```bash
