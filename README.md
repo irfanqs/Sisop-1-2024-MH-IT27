@@ -29,8 +29,81 @@ Setiap tahun Cipung dan Abe akan mengadakan rapat dengan kamu untuk mengetahui l
 </details>
 
 ### Penjelasan
+pertama buat **sandbox.sh**
+
+```bash
+!/bin/bash
+
+# Download File Sandbox.csv
+linkfile="https://drive.google.com/uc?id=1cC6MYBI3wRwDgqlFQE1OQUN83JAreId0"
+namafile="Sandbox.csv"
+wget -O "$namafile" "$linkfile"
+
+# Profit Terbesar
+awk -F ',' 'NR > 1 {sales[$6]+=$17} END {for (pembeli in sales) print pembeli "," sales[pembeli]}' Sandbox.csv |
+sort -t ',' -k 2,2nr |
+head -n 1 |
+awk -F ',' '{print "Nama Pembeli dengan Total Total Sales Tertinggi: " $1}'
+
+# Profit Terkecil
+awk -F ',' 'NR > 1 {segment[$6]+=$20} END {profitterkecil=999999999999; segmentterkecil=""; for (cust in segment) {if (segment[cust>
+
+# Soal 1 C, Menampilkan 3 Kategori profit tertinggi
+awk -F ',' 'NR > 1 {kategori[$14]+=$21} END {for (jenis in kategori) print jenis "," kategori[jenis]}' Sandbox.csv |
+sort -t ',' -k 2,2nr |
+head -n 3
+
+# Soal 1 D, Mencari purchase date dan amount (quantity) dari nama adriaens
+mencarinama=$(awk -F ',' '$6 == "Adriaens Grayland"' Sandbox.csv)
+if [ -z "$mencarinama" ]; then
+    echo "andriaens tidak terdaftar!!!."
+else
+    echo "$mencarinama"
+fi
+```
+1. `mkdir -p users` membuat direktori `users` jika belum ada. '-p' memastikan diektori sudah ada, tidak akan muncul pesan kesalahan
+2. `cd users` untuk berpindah ke direktori `users`
+3. membuat function untuk mendownload sandbox.csv
+
+```bash
+linkfile="https://drive.google.com/uc?id=1cC6MYBI3wRwDgqlFQE1OQUN83JAreId0"
+namafile="Sandbox.csv"
+wget -O "$namafile" "$linkfile"
+```
+4.  membuat function untuk mengecheck nama pembeli dengan total sales paling tinggi
+```bash
+awk -F ',' 'NR > 1 {sales[$6]+=$17} END {for (pembeli in sales) print pembeli "," sales[pembeli]}' Sandbox.csv |
+sort -t ',' -k 2,2nr |
+head -n 1 |
+awk -F ',' '{print "Nama Pembeli dengan Total Total Sales Tertinggi: " $1}'
+```
+5. membuat function untuk mencari customer segment yang memiliki profit paling kecil
+```bash
+awk -F ',' 'NR > 1 {segment[$6]+=$20} END {profitterkecil=999999999999; segmentterkecil=""; for (cust in segment) {if (segment[cust>
+```
+6. function untuk menampilkan 3 category yang memiliki total profit paling tinggi
+```bash
+awk -F ',' 'NR > 1 {kategori[$14]+=$21} END {for (jenis in kategori) print jenis "," kategori[jenis]}' Sandbox.csv |
+sort -t ',' -k 2,2nr |
+head -n 3
+```
+7. function untuk mengecek nama adriaens
+mencarinama=$(awk -F ',' '$6 == "Adriaens Grayland"' Sandbox.csv)
+```bash
+if [ -z "$mencarinama" ]; then
+    echo "andriaens tidak terdaftar!!!."
+else
+    echo "$mencarinama"
+fi
+```
+
+**Hasil Output**
+![Screenshot from 2024-03-30 18-40-25](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/150106905/d197e4d7-3fec-417a-81d8-27194ece4868)
+
 ### Kendala
+tidak ada kendala pada soal ini
 ### Revisi
+tidak ada revisi pada soal ini
 ## Soal 2
 <details><summary>Klik untuk melihat soal</summary>
 Oppie merupakan seorang peneliti bom atom, ia ingin merekrut banyak peneliti lain untuk mengerjakan proyek bom atom nya, Oppie memiliki racikan bom atom rahasia yang hanya bisa diakses penelitinya yang akan diidentifikasi sebagai user, Oppie juga memiliki admin yang bertugas untuk memanajemen peneliti, bantulah oppie untuk membuat program yang akan memudahkan tugasnya
