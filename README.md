@@ -61,35 +61,33 @@ else
     echo "$mencarinama"
 fi
 ```
-1. `mkdir -p users` membuat direktori `users` jika belum ada. '-p' memastikan diektori sudah ada, tidak akan muncul pesan kesalahan
-2. `cd users` untuk berpindah ke direktori `users`
-3. membuat function untuk mendownload sandbox.csv
+1. membuat function untuk mendownload sandbox.csv
 
 ```bash
 linkfile="https://drive.google.com/uc?id=1cC6MYBI3wRwDgqlFQE1OQUN83JAreId0"
 namafile="Sandbox.csv"
 wget -O "$namafile" "$linkfile"
 ```
-4.  membuat function untuk mengecheck nama pembeli dengan total sales paling tinggi
+2.  membuat function untuk mengecheck nama pembeli dengan total sales paling tinggi
 ```bash
 awk -F ',' 'NR > 1 {sales[$6]+=$17} END {for (pembeli in sales) print pembeli "," sales[pembeli]}' Sandbox.csv |
 sort -t ',' -k 2,2nr |
 head -n 1 |
 awk -F ',' '{print "Nama Pembeli dengan Total Total Sales Tertinggi: " $1}'
 ```
-5. membuat function untuk mencari customer segment yang memiliki profit paling kecil
+3. membuat function untuk mencari customer segment yang memiliki profit paling kecil
 ```bash
 awk -F ',' 'NR > 1 {segment[$6]+=$20} END {profitterkecil=999999999999; segmentterkecil=""; for (cust in segment) {if (segment[cust>
 ```
-6. function untuk menampilkan 3 category yang memiliki total profit paling tinggi
+4. function untuk menampilkan 3 category yang memiliki total profit paling tinggi
 ```bash
 awk -F ',' 'NR > 1 {kategori[$14]+=$21} END {for (jenis in kategori) print jenis "," kategori[jenis]}' Sandbox.csv |
 sort -t ',' -k 2,2nr |
 head -n 3
 ```
-7. function untuk mengecek nama adriaens
-mencarinama=$(awk -F ',' '$6 == "Adriaens Grayland"' Sandbox.csv)
+5. function untuk mengecek nama adriaens
 ```bash
+mencarinama=$(awk -F ',' '$6 == "Adriaens Grayland"' Sandbox.csv)
 if [ -z "$mencarinama" ]; then
     echo "andriaens tidak terdaftar!!!."
 else
