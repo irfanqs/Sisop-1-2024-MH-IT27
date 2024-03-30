@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #CRONJOB
-#* * * * * minute_log.sh
+#* * * * * /home/irfanqs/soal_4/minute_log.sh
 
 # Mengatur waktu untuk nama file log
 log_time=$(date +"%Y%m%d%H%M%S")
