@@ -48,21 +48,18 @@ awk -F ',' '{print "Nama Pembeli dengan Total Total Sales Tertinggi: " $1}'
 # Profit Terkecil
 awk -F ',' 'NR > 1 {segment[$6]+=$20} END {profitterkecil=999999999999; segmentterkecil=""; for (cust in segment) {if (segment[cust] < profitterkecil) {profitterkecil=segment[cust]; segmentterkecil=cust}} print "Customer dengan Profit Terkecil: " segmentterkecil}' Sandbox.csv
 
-
-
-
-
 # Soal 1 C, Menampilkan 3 Kategori profit tertinggi
 awk -F ',' 'NR > 1 {kategori[$14]+=$21} END {for (jenis in kategori) print jenis "," kategori[jenis]}' Sandbox.csv |
 sort -t ',' -k 2,2nr |
 head -n 3
 
 # Soal 1 D, Mencari purchase date dan amount (quantity) dari nama adriaens
+output=$(awk -F ',' '$6 == "Adriaens Grayland" {print $2,$18}' Sandbox.csv)
 mencarinama=$(awk -F ',' '$6 == "Adriaens Grayland"' Sandbox.csv)
 if [ -z "$mencarinama" ]; then
-    echo "andriaens tidak terdaftar!!!."
+    echo "adriaens tidak terdaftar!!!"
 else
-    echo "$mencarinama"
+    echo "$output"
 fi
 ```
 1. membuat function untuk mendownload sandbox.csv
@@ -91,16 +88,17 @@ head -n 3
 ```
 5. function untuk mengecek nama adriaens
 ```bash
+output=$(awk -F ',' '$6 == "Adriaens Grayland" {print $2,$18}' Sandbox.csv)
 mencarinama=$(awk -F ',' '$6 == "Adriaens Grayland"' Sandbox.csv)
 if [ -z "$mencarinama" ]; then
-    echo "andriaens tidak terdaftar!!!."
+    echo "adriaens tidak terdaftar!!!"
 else
-    echo "$mencarinama"
+    echo "$output"
 fi
 ```
 
 **Hasil Output**
-![Screenshot from 2024-03-30 18-40-25](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/150106905/d197e4d7-3fec-417a-81d8-27194ece4868)
+![318190862-d197e4d7-3fec-417a-81d8-27194ece4868](https://github.com/irfanqs/Sisop-1-2024-MH-IT27/assets/130438307/b4f574d3-1772-490d-b95c-97fc2151d3da)
 
 ### Kendala
 tidak ada kendala pada soal ini
